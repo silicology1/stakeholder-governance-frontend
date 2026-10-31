@@ -1,0 +1,12 @@
+{
+  "name": "stakeholder-governance-modular-frontend",
+  "private": true,
+  "scripts": {
+    "tailwind:build": "tailwindcss -i ./assets/css/input.css -o ./assets/tailwind.css -m",
+    "tailwind:watch": "tailwindcss -i ./assets/css/input.css -o ./assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

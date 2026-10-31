@@ -1,0 +1,8 @@
+[application]
+
+[web.app]
+title = "Stakeholder Governance"
+
+[web.watcher]
+reload_html = true
+watch_path = ["src", "assets"]
