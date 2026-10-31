@@ -1,6 +1,6 @@
 # Stakeholder Governance — Frontend (Dioxus)
 
-A Rust/web frontend for the [`stakeholder-governance-modular`](../stakeholder-governance-modular) Cairo
+A Rust/web frontend for the [`stakeholder-governance-modular`](https://github.com/silicology1/stakeholder-governance) Cairo
 contract suite, built with [Dioxus 0.7](https://dioxuslabs.com/learn/0.7/) and Tailwind CSS v4
 (standalone CLI, no Play CDN).
 
