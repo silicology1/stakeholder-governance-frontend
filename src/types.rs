@@ -61,6 +61,7 @@ pub struct Evaluation {
     pub slash_pool: Amount,
     pub governance_tokens_minted: Amount,
     pub bond_settled: bool,
+    pub grant_claimed: bool,
 }
 
 /// Legacy dispute-shaped record (subset of Evaluation fields).

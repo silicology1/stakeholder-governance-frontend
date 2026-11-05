@@ -66,6 +66,31 @@ Type-check only:
 cargo check --target wasm32-unknown-unknown
 ```
 
+```bash
+dx serve
+```
+
+
+```bash
+tailwindcss -i ./input.css -o ./assets/tailwind.css --watch
+```
+
+Format
+```bash
+dx fmt
+```
+
+```bash
+dx bundle --release
+```
+
+
+## OG image compression
+
+```bash
+convert og-image.png  -quality 10 og-image.jpg
+```
+
 ## Styling
 
 - Source: `assets/css/input.css` → compiled output: `assets/tailwind.css`

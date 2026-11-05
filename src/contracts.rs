@@ -294,7 +294,7 @@ pub async fn get_stake(net: Network, id: u64) -> Result<Stake, String> {
 
 pub async fn get_evaluation(net: Network, id: u64) -> Result<Evaluation, String> {
     let out = sel_call(net, "get_evaluation", enc_scalar(id as u128)).await?;
-    if out.len() < 20 {
+    if out.len() < 21 {
         return Err("unexpected get_evaluation result".into());
     }
     Ok(Evaluation {
@@ -316,6 +316,7 @@ pub async fn get_evaluation(net: Network, id: u64) -> Result<Evaluation, String>
         slash_pool: dec_amount(&out, 15),
         governance_tokens_minted: dec_amount(&out, 17),
         bond_settled: dec_bool(&out[19]),
+        grant_claimed: dec_bool(&out[20]),
     })
 }
 

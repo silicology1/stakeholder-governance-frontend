@@ -409,9 +409,17 @@ fn JuryPanel(ev: Evaluation) -> Element {
             send("claim_juror_reward", cal_pair(id, sid));
         })
     };
+    let do_claim_grant = {
+        let mut send = send.clone();
+        Callback::new(move |_| send("claim_governance_grant", cal_u256(id)))
+    };
     let do_unstake_bond = {
         let mut send = send.clone();
         Callback::new(move |_| send("unstake_bond", cal_u256(id)))
+    };
+    let do_cancel = {
+        let mut send = send.clone();
+        Callback::new(move |_| send("cancel_evaluation", cal_u256(id)))
     };
 
     let is_requester = app
@@ -445,6 +453,9 @@ fn JuryPanel(ev: Evaluation) -> Element {
                             Button { onclick: click(do_advance), variant: BtnVariant::Outline, size: "sm".to_string(), disabled: Some(pending), class: String::new(),
                                 Icon { name: IconName::Play, class: "h-4 w-4" }
                                 "Advance phase"
+                            }
+                            if is_requester {
+                                Button { onclick: do_cancel, variant: BtnVariant::Danger, size: "sm".to_string(), disabled: Some(pending), class: String::new(), "Cancel evaluation" }
                             }
                         }
                     }
@@ -543,8 +554,11 @@ fn JuryPanel(ev: Evaluation) -> Element {
                         Button { onclick: click(do_claim), variant: BtnVariant::Secondary, size: "sm".to_string(), disabled: Some(pending), class: String::new(),
                             "Claim juror reward"
                         }
-                        if is_requester {
-                            Button { onclick: do_unstake_bond, variant: BtnVariant::Outline, size: "sm".to_string(), disabled: Some(pending), class: String::new(), "Unstake my bond" }
+                        if is_requester && !ev.grant_claimed {
+                            Button { onclick: do_claim_grant, variant: BtnVariant::Secondary, size: "sm".to_string(), disabled: Some(pending), class: String::new(), "Collect governance grant" }
+                        }
+                        if is_requester && !ev.bond_settled {
+                            Button { onclick: do_unstake_bond, variant: BtnVariant::Outline, size: "sm".to_string(), disabled: Some(pending), class: String::new(), "Unstake bond" }
                         }
                     }
                 }
@@ -552,12 +566,8 @@ fn JuryPanel(ev: Evaluation) -> Element {
                 if ev.phase == crate::types::PHASE_DISMISSED || ev.bond_settled {
                     div { class: "rounded-xl border border-zinc-200 p-4 space-y-2 dark:border-zinc-800",
                         h3 { class: "text-sm font-bold text-zinc-900 dark:text-white", "Bond settlement" }
-                        if is_requester && !ev.bond_settled {
-                            Button { onclick: do_unstake_bond, variant: BtnVariant::Outline, size: "sm".to_string(), disabled: Some(pending), class: String::new(), "Unstake bond" }
-                        } else {
-                            p { class: "text-xs text-zinc-400",
-                                if ev.bond_settled { "The bond has already been settled." } else { "Eval dismissed: the requester can pull the bond back with unstake_bond." }
-                            }
+                        p { class: "text-xs text-zinc-400",
+                            if ev.bond_settled { "The bond has already been settled." } else { "The bond awaits the requester's pull from the Finalized card." }
                         }
                     }
                 }
